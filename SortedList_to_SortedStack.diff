@@ -1,0 +1,82 @@
+--- SortedList.java
++++ SortedStack.java
+@@ -1,45 +1,61 @@
++
+ import java.util.*;
+ 
+ /**
+- * SortedList reads integers from user input, stores them in a LinkedList,
+- * sorts the list in ascending order, and prints the sorted list.
++ * SortedStack reads integers from standard input, stores them in a {@link java.util.Stack},
++ * and keeps the stack sorted in ascending order.
+  *
+- * Author: Marisa Lavoratore
+- * Date: June 2, 2025
++ * <p>This class is a maintenance update of <code>SortedList</code> from Project #4.
++ * The original program relied on {@link java.util.LinkedList}; only the underlying
++ * data structure and the sorting logic have been adapted—everything else stays
++ * intact to maximise code‑reuse.</p>
++ *
++ * <p><b>Author:</b> Marisa Lavoratore<br>
++ * <b>Updated:</b> June 9, 2025</p>
+  */
+-public class SortedList {
++public class SortedStack {
+ 
+     /**
+-     * Main method that runs the program.
+-     * Reads integers until the user types 'done', sorts them, and displays the result.
++     * Runs the program:
++     * 1. Reads integers from the user until “done” is entered.
++     * 2. Sorts them in ascending order.
++     * 3. Pushes them onto a {@link java.util.Stack}.
++     * 4. Prints the stack contents (smallest → largest).
+      *
+-     * @param args command-line arguments (not used)
++     * @param args not used
+      */
+     public static void main(String[] args) {
++
++        // --- Step 1 & 2: Read & collect the numbers -------------------------
+         Scanner scanner = new Scanner(System.in);
+-        LinkedList<Integer> numbers = new LinkedList<>();
++        List<Integer> buffer = new ArrayList<>();
+ 
+         System.out.println("Enter integers (type 'done' to finish):");
+-
+         while (scanner.hasNext()) {
+             if (scanner.hasNextInt()) {
+-                numbers.add(scanner.nextInt());
++                buffer.add(scanner.nextInt());
+             } else {
+-                String input = scanner.next();
+-                if (input.equalsIgnoreCase("done")) {
++                String token = scanner.next();
++                if ("done".equalsIgnoreCase(token)) {
+                     break;
+                 } else {
+-                    System.out.println("Invalid input, please enter an integer or 'done'.");
++                    System.out.printf("Ignored invalid token: %s%n", token);
+                 }
+             }
+         }
+ 
+-        Collections.sort(numbers);
++        // Sort the buffer so we can push in ascending order
++        Collections.sort(buffer);
+ 
+-        System.out.println("Sorted List:");
+-        for (int num : numbers) {
+-            System.out.print(num + " ");
++        // --- Step 3: Transfer into a Stack in ascending order ---------------
++        Stack<Integer> numbers = new Stack<>();
++        for (int num : buffer) {
++            numbers.push(num);          // ensures bottom→top = smallest→largest
+         }
++
++        // --- Step 4: Display the result -------------------------------------
++        System.out.println("\nSorted Stack (bottom→top = smallest→largest):");
++        System.out.println(numbers);
+ 
+         scanner.close();
+     }
